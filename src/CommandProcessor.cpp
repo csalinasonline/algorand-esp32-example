@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include "ArduinoJson.h"
 #include "CommandProcessor.h"
+#include "ESP32Servo.h"
 
 //The GPIO PIN associated to the LED on the 
 // ESP32 DevKit v1 is 2
@@ -9,6 +10,8 @@ const int LED_PIN = 2;
 //The rate (in milliseconds) that the LED will flash
 const int FAST_LED = 350;
 const int SLOW_LED = 1200;
+
+Servo myservo;  // create servo object to control a servo
 
 TaskHandle_t ledTaskHandle = NULL;
 void toggleLed(void * parameter){
