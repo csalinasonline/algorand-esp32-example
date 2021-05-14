@@ -14,6 +14,8 @@ class CommandProcessor {
     public: 
         CommandProcessor(AlgoClient *client);
         void processCommands(String pubKey);
+        void InitServo(void);
+        void UpdateServo(int pos);
     private:
         String txID;
         AlgoClient *client;

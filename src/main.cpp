@@ -23,6 +23,10 @@ void setup() {
   
   setupWifi(Constants::MY_SSID.c_str(), Constants::MY_PASSWORD.c_str());
   
+  //
+  CMD_PROC->InitServo();
+  CMD_PROC->UpdateServo(0);
+  
   //Create an account object and retrieve the public key
   Account *account = new Account();
   PUBLIC_KEY = account->getPublicKey();

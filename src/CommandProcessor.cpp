@@ -12,6 +12,28 @@ const int FAST_LED = 350;
 const int SLOW_LED = 1200;
 
 Servo myservo;  // create servo object to control a servo
+const int servoPin = 13;
+
+/**
+ * Update servo position
+ */ 
+void CommandProcessor::UpdateServo(int pos){
+  int u_pos;
+  if(pos > 180)
+    u_pos = 180;
+  else if(pos < 0)
+    u_pos = 0;
+  else
+    u_pos = pos;
+  myservo.write(u_pos); 
+}
+
+/**
+ * Initialize the servo
+ */ 
+void CommandProcessor::InitServo(void){
+  myservo.attach(servoPin);
+}
 
 TaskHandle_t ledTaskHandle = NULL;
 void toggleLed(void * parameter){
