@@ -86,6 +86,9 @@ void CommandProcessor::processCommands(String pubKey) {
               if(noteDoc.containsKey("led")) {
                 processLedCmd(noteDoc["led"].as<String>());
               }
+              if(noteDoc.containsKey("servo")) {
+                processServoCmd(noteDoc["servo"].as<String>());
+              }
               else if(noteDoc.containsKey("cmd"))  {
                 processCmd(noteDoc["cmd"].as<String>());
               }
@@ -96,6 +99,13 @@ void CommandProcessor::processCommands(String pubKey) {
     } catch(...){
         Serial.print("catch all");
     } 
+}
+
+/**
+ * The processServoCmd is responsible for processing an Servo command received 
+ * from the transaction. 
+ */ 
+void CommandProcessor::processServoCmd(String cmd){
 }
 
 /**
@@ -117,10 +127,17 @@ void CommandProcessor::processLedCmd(String cmd){
     Serial.println("Received command to blink-slow");
     xTaskCreate(toggleLed, "ToggleSlowLED", 1000, (void*)&SLOW_LED, 1, &ledTaskHandle);
     //function, name, stack size, parameter, task priority, handle
-  } else if(!cmd.equalsIgnoreCase("stop")) {
-    Serial.println("Try again. Received unrecognized LED command: " + cmd);
-  } else {
+  } else if(cmd.equalsIgnoreCase("stop")) {
     Serial.println("Stopped the blinking");
+  } else if(cmd.equalsIgnoreCase("dispense")) {
+    Serial.println("Dispensing Candy!");
+    UpdateServo(0);
+    delay(1000);
+    UpdateServo(180);
+    delay(5000);
+    UpdateServo(0);
+  } else {
+    Serial.println("Try again. Received unrecognized LED command: " + cmd); 
   }
 }
 
