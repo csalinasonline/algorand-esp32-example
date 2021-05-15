@@ -14,8 +14,6 @@ class CommandProcessor {
     public: 
         CommandProcessor(AlgoClient *client);
         void processCommands(String pubKey);
-        void InitServo(void);
-        void UpdateServo(int pos);
         void InitLeds(void);
         void UpdateOutputUnlock(bool state);
         void UpdateOutputLock(bool state);
@@ -23,7 +21,6 @@ class CommandProcessor {
     private:
         String txID;
         AlgoClient *client;
-        void processLedCmd(String cmd);
         void processCmd(String cmd);
         
 };
