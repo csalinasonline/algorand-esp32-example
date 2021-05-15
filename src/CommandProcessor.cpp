@@ -87,34 +87,40 @@ CommandProcessor::CommandProcessor(AlgoClient *algoClient){
  *  exists we will reset device state accordingly. 
  */
 void CommandProcessor::processCommands(String pubKey) {
-  //
-  // So we only care about the last transation (i.e. limit=1)  
-  DynamicJsonDocument doc = client->getTransactions(pubKey, 1);
-  try {
-        if(doc != NULL && doc["transactions"][0] != NULL 
-            && !this->txID.equalsIgnoreCase(doc["transactions"][0]["id"].as<String>()) ) {
-            // Set this transaction ID so we don't process it again
-            this->txID = doc["transactions"][0]["id"].as<String>();
-            size_t outlen ;
-            String note64 = doc["transactions"][0]["note"];
-            if(note64 != NULL) {
-              unsigned char* decodedNote = base64_decode(((const unsigned char *)note64.c_str()), note64.length(), &outlen);
-              //Important! No defensive programming. We assume the note is received in JSON format.
-              DynamicJsonDocument noteDoc(64);
-              deserializeJson(noteDoc, decodedNote);
-              if(noteDoc.containsKey("led")) {
-                processLedCmd(noteDoc["led"].as<String>());
+  static bool one_shot = false;
+    //
+    // So we only care about the last transation (i.e. limit=1)  
+    DynamicJsonDocument doc = client->getTransactions(pubKey, 1);
+    try {
+          if(doc != NULL && doc["transactions"][0] != NULL 
+              && !this->txID.equalsIgnoreCase(doc["transactions"][0]["id"].as<String>()) ) {
+              // Set this transaction ID so we don't process it again
+              this->txID = doc["transactions"][0]["id"].as<String>();
+              size_t outlen ;
+              String note64 = doc["transactions"][0]["note"];
+              if(note64 != NULL) {
+                unsigned char* decodedNote = base64_decode(((const unsigned char *)note64.c_str()), note64.length(), &outlen);
+                //Important! No defensive programming. We assume the note is received in JSON format.
+                DynamicJsonDocument noteDoc(64);
+                deserializeJson(noteDoc, decodedNote);
+                if(!one_shot) {
+                  one_shot = true;
+                }
+                else {
+                  if(noteDoc.containsKey("led")) {
+                    processLedCmd(noteDoc["led"].as<String>());
+                  }
+                  else if(noteDoc.containsKey("cmd"))  {
+                    processCmd(noteDoc["cmd"].as<String>());
+                  }
+                }
               }
-              else if(noteDoc.containsKey("cmd"))  {
-                processCmd(noteDoc["cmd"].as<String>());
-              }
-            }
-        }
-    } catch(const std::exception& e){
-        Serial.print(e.what());
-    } catch(...){
-        Serial.print("catch all");
-    } 
+          }
+      } catch(const std::exception& e){
+          Serial.print(e.what());
+      } catch(...){
+          Serial.print("catch all");
+      } 
 }
 
 /**
