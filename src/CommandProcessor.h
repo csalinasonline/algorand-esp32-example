@@ -22,10 +22,7 @@ class CommandProcessor {
     private:
         String txID;
         AlgoClient *client;
-        void processLedCmd(String cmd);
-        void processCmd(String cmd);
-        void processServoCmd(String cmd);
-        
+        void processCmd(String cmd);        
 };
 
 #endif
