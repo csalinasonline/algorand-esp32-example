@@ -101,6 +101,7 @@ CommandProcessor::CommandProcessor(AlgoClient *algoClient){
  *  exists we will reset device state accordingly. 
  */
 void CommandProcessor::processCommands(String pubKey) {
+  static bool one_shot = false;
   //
   // So we only care about the last transation (i.e. limit=1)  
   DynamicJsonDocument doc = client->getTransactions(pubKey, 1);
@@ -116,16 +117,17 @@ void CommandProcessor::processCommands(String pubKey) {
               //Important! No defensive programming. We assume the note is received in JSON format.
               DynamicJsonDocument noteDoc(64);
               deserializeJson(noteDoc, decodedNote);
-              if(noteDoc.containsKey("led")) {
-                processLedCmd(noteDoc["led"].as<String>());
-              }
-              if(noteDoc.containsKey("servo")) {
-                processServoCmd(noteDoc["servo"].as<String>());
-              }
-              else if(noteDoc.containsKey("cmd"))  {
-                processCmd(noteDoc["cmd"].as<String>());
-              }
-            }
+                if(!one_shot) {
+                  one_shot = true;
+                }
+                else {
+                  if(noteDoc.containsKey("led")) {
+                    processLedCmd(noteDoc["led"].as<String>());
+                  }
+                  else if(noteDoc.containsKey("cmd"))  {
+                    processCmd(noteDoc["cmd"].as<String>());
+                  }
+                }
         }
     } catch(const std::exception& e){
         Serial.print(e.what());
