@@ -20,12 +20,16 @@ CommandProcessor *CMD_PROC = new CommandProcessor(CLIENT);
 void setup() {
   //Setting up serial output. This number should match monitor_speed in platformio.ini
   Serial.begin(115200);  
-  
-  setupWifi(Constants::MY_SSID.c_str(), Constants::MY_PASSWORD.c_str());
-  
+
   //
   CMD_PROC->InitServo();
   CMD_PROC->UpdateServo(0);
+  CMD_PROC->InitLeds();
+  CMD_PROC->UpdateLEDDispense(false);
+  CMD_PROC->UpdateLEDWifi(false);
+  
+  setupWifi(Constants::MY_SSID.c_str(), Constants::MY_PASSWORD.c_str());
+  CMD_PROC->UpdateLEDWifi(true);
   
   //Create an account object and retrieve the public key
   Account *account = new Account();

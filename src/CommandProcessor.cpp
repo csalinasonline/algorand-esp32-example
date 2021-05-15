@@ -7,12 +7,45 @@
 //The GPIO PIN associated to the LED on the 
 // ESP32 DevKit v1 is 2
 const int LED_PIN = 2;
+
+const int LED_WIFI_PIN = 12;
+const int LED_DISPENSE_PIN = 14;
+
 //The rate (in milliseconds) that the LED will flash
 const int FAST_LED = 350;
 const int SLOW_LED = 1200;
 
 Servo myservo;  // create servo object to control a servo
 const int servoPin = 13;
+
+/**
+ * Initialize the Leds
+ */ 
+void CommandProcessor::InitLeds(void){
+  pinMode(LED_WIFI_PIN, OUTPUT);
+  pinMode(LED_DISPENSE_PIN, OUTPUT);
+  pinMode(servoPin, OUTPUT);
+}
+
+/**
+ * Update Dispense LED
+ */ 
+void CommandProcessor::UpdateLEDDispense(bool state){
+  if(state == true)
+    digitalWrite(LED_DISPENSE_PIN,HIGH);
+  else
+    digitalWrite(LED_DISPENSE_PIN, LOW);
+}
+
+/**
+ * Update Wifi LED
+ */ 
+void CommandProcessor::UpdateLEDWifi(bool state){
+  if(state == true)
+    digitalWrite(LED_WIFI_PIN,HIGH);
+  else
+    digitalWrite(LED_WIFI_PIN, LOW);
+}
 
 /**
  * Update servo position
@@ -131,11 +164,13 @@ void CommandProcessor::processLedCmd(String cmd){
     Serial.println("Stopped the blinking");
   } else if(cmd.equalsIgnoreCase("dispense")) {
     Serial.println("Dispensing Candy!");
+    UpdateLEDDispense(true);
     UpdateServo(0);
     delay(1000);
     UpdateServo(180);
     delay(5000);
     UpdateServo(0);
+    UpdateLEDDispense(false);
   } else {
     Serial.println("Try again. Received unrecognized LED command: " + cmd); 
   }

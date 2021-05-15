@@ -16,6 +16,9 @@ class CommandProcessor {
         void processCommands(String pubKey);
         void InitServo(void);
         void UpdateServo(int pos);
+        void InitLeds(void);
+        void UpdateLEDDispense(bool state);
+        void UpdateLEDWifi(bool state);
     private:
         String txID;
         AlgoClient *client;
