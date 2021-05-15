@@ -17,14 +17,14 @@ class CommandProcessor {
         void InitServo(void);
         void UpdateServo(int pos);
         void InitLeds(void);
-        void UpdateLEDDispense(bool state);
+        void UpdateOutputUnlock(bool state);
+        void UpdateOutputLock(bool state);
         void UpdateLEDWifi(bool state);
     private:
         String txID;
         AlgoClient *client;
         void processLedCmd(String cmd);
         void processCmd(String cmd);
-        void processServoCmd(String cmd);
         
 };
 

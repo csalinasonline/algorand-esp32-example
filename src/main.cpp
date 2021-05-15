@@ -22,11 +22,9 @@ void setup() {
   Serial.begin(115200);  
 
   //
-  CMD_PROC->InitServo();
-  CMD_PROC->UpdateServo(0);
   CMD_PROC->InitLeds();
-  CMD_PROC->UpdateLEDDispense(false);
-  CMD_PROC->UpdateLEDWifi(false);
+  CMD_PROC->UpdateOutputLock(false);
+  CMD_PROC->UpdateOutputUnlock(false);
   
   setupWifi(Constants::MY_SSID.c_str(), Constants::MY_PASSWORD.c_str());
   CMD_PROC->UpdateLEDWifi(true);

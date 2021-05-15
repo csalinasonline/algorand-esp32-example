@@ -2,39 +2,46 @@
 #include <Arduino.h>
 #include "ArduinoJson.h"
 #include "CommandProcessor.h"
-#include "ESP32Servo.h"
 
 //The GPIO PIN associated to the LED on the 
 // ESP32 DevKit v1 is 2
 const int LED_PIN = 2;
 
-const int LED_WIFI_PIN = 12;
-const int LED_DISPENSE_PIN = 14;
+const int LED_WIFI_PIN = 13;
+const int OUTPUT_LOCK_PIN = 12;
+const int OUTPUT_UNLOCK_PIN = 14;
 
 //The rate (in milliseconds) that the LED will flash
 const int FAST_LED = 350;
 const int SLOW_LED = 1200;
-
-Servo myservo;  // create servo object to control a servo
-const int servoPin = 13;
 
 /**
  * Initialize the Leds
  */ 
 void CommandProcessor::InitLeds(void){
   pinMode(LED_WIFI_PIN, OUTPUT);
-  pinMode(LED_DISPENSE_PIN, OUTPUT);
-  pinMode(servoPin, OUTPUT);
+  pinMode(OUTPUT_LOCK_PIN, OUTPUT);
+  pinMode(OUTPUT_UNLOCK_PIN, OUTPUT);
 }
 
 /**
- * Update Dispense LED
+ * Update Output Unlock
  */ 
-void CommandProcessor::UpdateLEDDispense(bool state){
-  if(state == true)
-    digitalWrite(LED_DISPENSE_PIN,HIGH);
+void CommandProcessor::UpdateOutputUnlock(bool state){
+  if(state != true)
+    digitalWrite(OUTPUT_UNLOCK_PIN,HIGH);
   else
-    digitalWrite(LED_DISPENSE_PIN, LOW);
+    digitalWrite(OUTPUT_UNLOCK_PIN, LOW);
+}
+
+/**
+ * Update Output Lock
+ */ 
+void CommandProcessor::UpdateOutputLock(bool state){
+  if(state != true)
+    digitalWrite(OUTPUT_LOCK_PIN,HIGH);
+  else
+    digitalWrite(OUTPUT_LOCK_PIN, LOW);
 }
 
 /**
@@ -45,27 +52,6 @@ void CommandProcessor::UpdateLEDWifi(bool state){
     digitalWrite(LED_WIFI_PIN,HIGH);
   else
     digitalWrite(LED_WIFI_PIN, LOW);
-}
-
-/**
- * Update servo position
- */ 
-void CommandProcessor::UpdateServo(int pos){
-  int u_pos;
-  if(pos > 180)
-    u_pos = 180;
-  else if(pos < 0)
-    u_pos = 0;
-  else
-    u_pos = pos;
-  myservo.write(u_pos); 
-}
-
-/**
- * Initialize the servo
- */ 
-void CommandProcessor::InitServo(void){
-  myservo.attach(servoPin);
 }
 
 TaskHandle_t ledTaskHandle = NULL;
@@ -119,9 +105,6 @@ void CommandProcessor::processCommands(String pubKey) {
               if(noteDoc.containsKey("led")) {
                 processLedCmd(noteDoc["led"].as<String>());
               }
-              if(noteDoc.containsKey("servo")) {
-                processServoCmd(noteDoc["servo"].as<String>());
-              }
               else if(noteDoc.containsKey("cmd"))  {
                 processCmd(noteDoc["cmd"].as<String>());
               }
@@ -132,13 +115,6 @@ void CommandProcessor::processCommands(String pubKey) {
     } catch(...){
         Serial.print("catch all");
     } 
-}
-
-/**
- * The processServoCmd is responsible for processing an Servo command received 
- * from the transaction. 
- */ 
-void CommandProcessor::processServoCmd(String cmd){
 }
 
 /**
@@ -162,15 +138,22 @@ void CommandProcessor::processLedCmd(String cmd){
     //function, name, stack size, parameter, task priority, handle
   } else if(cmd.equalsIgnoreCase("stop")) {
     Serial.println("Stopped the blinking");
-  } else if(cmd.equalsIgnoreCase("dispense")) {
-    Serial.println("Dispensing Candy!");
-    UpdateLEDDispense(true);
-    UpdateServo(0);
-    delay(1000);
-    UpdateServo(180);
-    delay(5000);
-    UpdateServo(0);
-    UpdateLEDDispense(false);
+  } else if(cmd.equalsIgnoreCase("lock")) {
+    Serial.println("Locking Doors!");
+      for(int i = 0; i < 3; i++) {
+        UpdateOutputLock(true);
+        delay(500);
+        UpdateOutputLock(false);
+        delay(500);
+      }
+  } else if(cmd.equalsIgnoreCase("unlock")) {
+    Serial.println("Unlocking Doors!");
+      for(int i = 0; i < 3; i++) {
+        UpdateOutputUnlock(true);
+        delay(500);
+        UpdateOutputUnlock(false);
+        delay(500);
+      }
   } else {
     Serial.println("Try again. Received unrecognized LED command: " + cmd); 
   }
