@@ -12,6 +12,7 @@ class AlgoClient
     String getVersion(void);
     String getGenesisID(void);
     String getGenesisHash(void);
+    String getBuild(void);
     DynamicJsonDocument getTransactions(String pubKey, int limit);
   private:
     String baseV2Url;

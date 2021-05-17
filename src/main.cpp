@@ -53,6 +53,9 @@ void loop() {
   String str_genesis_hash = CLIENT->getGenesisHash();
   Serial.print("Genesis Hash(b64): ");
   Serial.println(str_genesis_hash);
+  String str_build = CLIENT->getBuild();
+  Serial.print("Build info: ");
+  Serial.println(str_build);
 
   /* 
     2) Check for any new commands

@@ -19,6 +19,32 @@ AlgoClient::AlgoClient(String v2Url, String v2IdxUrl, String aKey){
 }
 
 /**
+ * Retrieve build
+ * void
+ * return string build
+ */ 
+String AlgoClient::getBuild(void) {
+    String serverPath = baseV2Url;
+    int len = serverPath.length();     
+    String serverPath2 = serverPath.substring(0,len-3) + "versions/";  // remove v2
+    DynamicJsonDocument doc = get(serverPath2);
+    String build = "";
+    int build_major = doc["build"]["major"]; 
+    // int build_minor = doc["build"]["minor"]; 
+    // int build_number = doc["build"]["build_number"]; 
+    // String build_commit_hash = doc["build"]["commit_hash"]; 
+    // String build_branch = doc["build"]["branch"]; 
+    // String build_channel = doc["build"]["channel"]; 
+    build += String(build_major);
+    // build += "," + String(build_minor);
+    // build += "," + String(build_number);
+    // build += "," + build_commit_hash;
+    // build += "," + build_branch;
+    // build += "," + build_channel;
+    return build;
+}
+
+/**
  * Retrieve genesis hash
  * void
  * return string genesis hash
