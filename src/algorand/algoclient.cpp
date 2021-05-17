@@ -66,7 +66,7 @@ String AlgoClient::getVersion(void) {
         else {
             String temp = doc["versions"][0];
             String temp2 = doc["versions"][1];
-            version = temp + " " + temp2;
+            version = temp + "," + temp2;
         }
     }
     return version;
