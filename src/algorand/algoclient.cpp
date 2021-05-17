@@ -19,6 +19,20 @@ AlgoClient::AlgoClient(String v2Url, String v2IdxUrl, String aKey){
 }
 
 /**
+ * Retrieve genesis hash
+ * void
+ * return string genesis hash
+ */ 
+String AlgoClient::getGenesisHash(void) {
+    String serverPath = baseV2Url;
+    int len = serverPath.length();     
+    String serverPath2 = serverPath.substring(0,len-3) + "versions/";  // remove v2
+    DynamicJsonDocument doc = get(serverPath2);
+    String genesis_hash = doc["genesis_hash_b64"]; 
+    return genesis_hash;
+}
+
+/**
  * Retrieve genesis ID
  * void
  * return string genesis ID

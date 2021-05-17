@@ -11,6 +11,7 @@ class AlgoClient
     double getAccountBalance(String pubKey);
     String getVersion(void);
     String getGenesisID(void);
+    String getGenesisHash(void);
     DynamicJsonDocument getTransactions(String pubKey, int limit);
   private:
     String baseV2Url;

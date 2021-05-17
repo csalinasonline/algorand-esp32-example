@@ -50,6 +50,9 @@ void loop() {
   String str_genesis_id = CLIENT->getGenesisID();
   Serial.print("Genesis ID: ");
   Serial.println(str_genesis_id);
+  String str_genesis_hash = CLIENT->getGenesisHash();
+  Serial.print("Genesis Hash(b64): ");
+  Serial.println(str_genesis_hash);
 
   /* 
     2) Check for any new commands
