@@ -3,49 +3,6 @@
 #include "ArduinoJson.h"
 #include "CommandProcessor.h"
 
-const int LED_WIFI_PIN = 13;
-const int OUTPUT_LOCK_PIN = 12;
-const int OUTPUT_UNLOCK_PIN = 14;
-
-/**
- * Initialize the Leds
- */ 
-void CommandProcessor::InitLeds(void){
-  pinMode(LED_WIFI_PIN, OUTPUT);
-  pinMode(OUTPUT_LOCK_PIN, OUTPUT);
-  pinMode(OUTPUT_UNLOCK_PIN, OUTPUT);
-}
-
-/**
- * Update Output Unlock
- */ 
-void CommandProcessor::UpdateOutputUnlock(bool state){
-  if(state != true)
-    digitalWrite(OUTPUT_UNLOCK_PIN,HIGH);
-  else
-    digitalWrite(OUTPUT_UNLOCK_PIN, LOW);
-}
-
-/**
- * Update Output Lock
- */ 
-void CommandProcessor::UpdateOutputLock(bool state){
-  if(state != true)
-    digitalWrite(OUTPUT_LOCK_PIN,HIGH);
-  else
-    digitalWrite(OUTPUT_LOCK_PIN, LOW);
-}
-
-/**
- * Update Wifi LED
- */ 
-void CommandProcessor::UpdateLEDWifi(bool state){
-  if(state == true)
-    digitalWrite(LED_WIFI_PIN,HIGH);
-  else
-    digitalWrite(LED_WIFI_PIN, LOW);
-}
-
 /**
  * Initialize the AlgoClient  
  */ 
@@ -101,22 +58,6 @@ void CommandProcessor::processCommands(String pubKey) {
 void CommandProcessor::processCmd(String cmd){
   if(cmd.equalsIgnoreCase("reboot") || cmd.equalsIgnoreCase("restart")) {
     //ESP.restart();
-  } else if(cmd.equalsIgnoreCase("lock")) {
-    Serial.println("Locking Doors!");
-      for(int i = 0; i < 3; i++) {
-        UpdateOutputLock(true);
-        delay(500);
-        UpdateOutputLock(false);
-        delay(500);
-      }
-  } else if(cmd.equalsIgnoreCase("unlock")) {
-    Serial.println("Unlocking Doors!");
-      for(int i = 0; i < 3; i++) {
-        UpdateOutputUnlock(true);
-        delay(500);
-        UpdateOutputUnlock(false);
-        delay(500);
-      }
   } else {
     Serial.println("Received unknown cmd: " + cmd);
   }
