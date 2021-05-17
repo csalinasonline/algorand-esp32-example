@@ -19,6 +19,20 @@ AlgoClient::AlgoClient(String v2Url, String v2IdxUrl, String aKey){
 }
 
 /**
+ * Retrieve genesis ID
+ * void
+ * return string genesis ID
+ */ 
+String AlgoClient::getGenesisID(void) {
+    String serverPath = baseV2Url;
+    int len = serverPath.length();     
+    String serverPath2 = serverPath.substring(0,len-3) + "versions/";  // remove v2
+    DynamicJsonDocument doc = get(serverPath2);
+    String genesis_id = doc["genesis_id"]; 
+    return genesis_id;
+}
+
+/**
  * Retrieve version
  * void
  * return string version

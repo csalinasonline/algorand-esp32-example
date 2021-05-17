@@ -47,6 +47,9 @@ void loop() {
   String str_version = CLIENT->getVersion();
   Serial.print("Version: ");
   Serial.println(str_version);
+  String str_genesis_id = CLIENT->getGenesisID();
+  Serial.print("Genesis ID: ");
+  Serial.println(str_genesis_id);
 
   /* 
     2) Check for any new commands

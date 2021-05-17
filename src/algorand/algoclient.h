@@ -10,6 +10,7 @@ class AlgoClient
     AlgoClient(String v2Url, String v2IdxUrl, String apiKey);
     double getAccountBalance(String pubKey);
     String getVersion(void);
+    String getGenesisID(void);
     DynamicJsonDocument getTransactions(String pubKey, int limit);
   private:
     String baseV2Url;
