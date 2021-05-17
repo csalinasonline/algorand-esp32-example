@@ -19,6 +19,32 @@ AlgoClient::AlgoClient(String v2Url, String v2IdxUrl, String aKey){
 }
 
 /**
+ * Retrieve version
+ * void
+ * return string version
+ */ 
+String AlgoClient::getVersion(void) {
+    String serverPath = baseV2Url;
+    int len = serverPath.length();     
+    String serverPath2 = serverPath.substring(0,len-3) + "versions/";  // remove v2
+    DynamicJsonDocument doc = get(serverPath2);
+    int doc_len = doc["versions"].size() ; 
+    String version = "";
+    if(doc_len > 0) {  // get supported versions
+        if(doc_len == 1) {
+            String temp = doc["versions"][0];
+            version = temp;
+        }
+        else {
+            String temp = doc["versions"][0];
+            String temp2 = doc["versions"][1];
+            version = temp + " " + temp2;
+        }
+    }
+    return version;
+}
+
+/**
  * Retrieve account information and extract the balance
  * String publicKey
  * return double balance

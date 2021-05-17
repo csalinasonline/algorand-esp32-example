@@ -43,6 +43,11 @@ void loop() {
   Serial.print(balance);
   Serial.println(" ALGOS");
 
+  //
+  String str_version = CLIENT->getVersion();
+  Serial.print("Version: ");
+  Serial.println(str_version);
+
   /* 
     2) Check for any new commands
         In our scenario, a command is an instruction from a 
