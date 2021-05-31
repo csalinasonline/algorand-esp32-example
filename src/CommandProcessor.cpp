@@ -7,8 +7,11 @@
 const int OUTPUT_LED_WIFI_PIN = 13;
 const int OUTPUT_SELECT_LOAD_PIN = 12;
 const int OUTPUT_LOCK_PIN = 14;
+const int OUTPUT_LOCK_LED_PIN = 25;
+const int OUTPUT_UNLOCK_LED_PIN = 33;
 const int INPUT_LOCK_SW_PIN = 27;
 const int INPUT_UNLOCK_SW_PIN = 26;
+
 
 /**
  * Initialize the Leds
@@ -17,8 +20,16 @@ void CommandProcessor::InitIO(void){
   pinMode(OUTPUT_LED_WIFI_PIN, OUTPUT);
   pinMode(OUTPUT_SELECT_LOAD_PIN, OUTPUT);
   pinMode(OUTPUT_LOCK_PIN, OUTPUT);
+  pinMode(OUTPUT_LOCK_LED_PIN, OUTPUT);
+  pinMode(OUTPUT_UNLOCK_LED_PIN, OUTPUT); 
   pinMode(INPUT_LOCK_SW_PIN, INPUT);
   pinMode(INPUT_UNLOCK_SW_PIN, INPUT);
+
+  digitalWrite(OUTPUT_LED_WIFI_PIN, LOW);
+  digitalWrite(OUTPUT_SELECT_LOAD_PIN, LOW);
+  digitalWrite(OUTPUT_LOCK_PIN, LOW);
+  digitalWrite(OUTPUT_LOCK_LED_PIN, LOW);
+  digitalWrite(OUTPUT_UNLOCK_LED_PIN, LOW);
 }
 
 /**
@@ -49,6 +60,32 @@ void CommandProcessor::UpdateLEDWifi(bool state){
     digitalWrite(OUTPUT_LED_WIFI_PIN,HIGH);
   else
     digitalWrite(OUTPUT_LED_WIFI_PIN, LOW);
+}
+
+/**
+ * Update Lock LED
+ */ 
+void CommandProcessor::UpdateLEDLock(void){
+  bool state;
+  state = digitalRead(INPUT_LOCK_SW_PIN);
+  if(state) {
+    digitalWrite(OUTPUT_LOCK_LED_PIN, LOW);
+  } else {
+    digitalWrite(OUTPUT_LOCK_LED_PIN, HIGH);
+  }
+}
+
+/**
+ * Update Unlock LED
+ */ 
+void CommandProcessor::UpdateLEDUnlock(void){
+  bool state;
+  state = digitalRead(INPUT_UNLOCK_SW_PIN);
+  if(state) {
+    digitalWrite(OUTPUT_UNLOCK_LED_PIN, LOW);
+  } else {
+    digitalWrite(OUTPUT_UNLOCK_LED_PIN, HIGH);
+  }
 }
 
 /**

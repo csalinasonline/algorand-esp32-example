@@ -41,6 +41,11 @@ void setup() {
 *  for balance changes and device commands. 
 */
 void loop() {
+  //
+  CMD_PROC->UpdateLEDLock();
+  CMD_PROC->UpdateLEDUnlock();
+  
+  //
   Serial.println("Using Address:");
   Serial.println(PUBLIC_KEY);
   //1) Lets check our balance for more ALGOS.  
