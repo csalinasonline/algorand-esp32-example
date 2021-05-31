@@ -1,49 +1,54 @@
 
 #include <Arduino.h>
 #include "ArduinoJson.h"
+#include <Adafruit_NeoPixel.h>
 #include "CommandProcessor.h"
 
-const int LED_WIFI_PIN = 13;
-const int OUTPUT_LOCK_PIN = 12;
-const int OUTPUT_UNLOCK_PIN = 14;
+const int OUTPUT_LED_WIFI_PIN = 13;
+const int OUTPUT_SELECT_LOAD_PIN = 12;
+const int OUTPUT_LOCK_PIN = 14;
+const int INPUT_LOCK_SW_PIN = 27;
+const int INPUT_UNLOCK_SW_PIN = 26;
 
 /**
  * Initialize the Leds
  */ 
-void CommandProcessor::InitLeds(void){
-  pinMode(LED_WIFI_PIN, OUTPUT);
+void CommandProcessor::InitIO(void){
+  pinMode(OUTPUT_LED_WIFI_PIN, OUTPUT);
+  pinMode(OUTPUT_SELECT_LOAD_PIN, OUTPUT);
   pinMode(OUTPUT_LOCK_PIN, OUTPUT);
-  pinMode(OUTPUT_UNLOCK_PIN, OUTPUT);
+  pinMode(INPUT_LOCK_SW_PIN, INPUT);
+  pinMode(INPUT_UNLOCK_SW_PIN, INPUT);
 }
 
 /**
  * Update Output Unlock
  */ 
-void CommandProcessor::UpdateOutputUnlock(bool state){
-  if(state != true)
-    digitalWrite(OUTPUT_UNLOCK_PIN,HIGH);
-  else
-    digitalWrite(OUTPUT_UNLOCK_PIN, LOW);
-}
+// void CommandProcessor::UpdateOutputUnlock(bool state){
+//   if(state != true)
+//     digitalWrite(OUTPUT_UNLOCK_PIN,HIGH);
+//   else
+//     digitalWrite(OUTPUT_UNLOCK_PIN, LOW);
+// }
 
 /**
  * Update Output Lock
  */ 
-void CommandProcessor::UpdateOutputLock(bool state){
-  if(state != true)
-    digitalWrite(OUTPUT_LOCK_PIN,HIGH);
-  else
-    digitalWrite(OUTPUT_LOCK_PIN, LOW);
-}
+// void CommandProcessor::UpdateOutputLock(bool state){
+//   if(state != true)
+//     digitalWrite(OUTPUT_LOCK_PIN,HIGH);
+//   else
+//     digitalWrite(OUTPUT_LOCK_PIN, LOW);
+// }
 
 /**
  * Update Wifi LED
  */ 
 void CommandProcessor::UpdateLEDWifi(bool state){
   if(state == true)
-    digitalWrite(LED_WIFI_PIN,HIGH);
+    digitalWrite(OUTPUT_LED_WIFI_PIN,HIGH);
   else
-    digitalWrite(LED_WIFI_PIN, LOW);
+    digitalWrite(OUTPUT_LED_WIFI_PIN, LOW);
 }
 
 /**
@@ -101,23 +106,24 @@ void CommandProcessor::processCommands(String pubKey) {
 void CommandProcessor::processCmd(String cmd){
   if(cmd.equalsIgnoreCase("reboot") || cmd.equalsIgnoreCase("restart")) {
     //ESP.restart();
-  } else if(cmd.equalsIgnoreCase("lock")) {
-    Serial.println("Locking Doors!");
-      for(int i = 0; i < 3; i++) {
-        UpdateOutputLock(true);
-        delay(500);
-        UpdateOutputLock(false);
-        delay(500);
-      }
-  } else if(cmd.equalsIgnoreCase("unlock")) {
-    Serial.println("Unlocking Doors!");
-      for(int i = 0; i < 3; i++) {
-        UpdateOutputUnlock(true);
-        delay(500);
-        UpdateOutputUnlock(false);
-        delay(500);
-      }
-  } else {
+  } //  else if(cmd.equalsIgnoreCase("lock")) {
+  //   Serial.println("Locking Doors!");
+  //     for(int i = 0; i < 3; i++) {
+  //       UpdateOutputLock(true);
+  //       delay(500);
+  //       UpdateOutputLock(false);
+  //       delay(500);
+  //     }
+  // } else if(cmd.equalsIgnoreCase("unlock")) {
+  //   Serial.println("Unlocking Doors!");
+  //     for(int i = 0; i < 3; i++) {
+  //       UpdateOutputUnlock(true);
+  //       delay(500);
+  //       UpdateOutputUnlock(false);
+  //       delay(500);
+  //     }
+  // } 
+  else {
     Serial.println("Received unknown cmd: " + cmd);
   }
 }
