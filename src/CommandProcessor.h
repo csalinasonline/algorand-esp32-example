@@ -18,8 +18,10 @@ class CommandProcessor {
         //void UpdateOutputUnlock(bool state);
         //void UpdateOutputLock(bool state);
         void UpdateLEDWifi(bool state);
-        void UpdateLEDLock(void);
-        void UpdateLEDUnlock(void);
+        void UpdateLEDUnlockLock(void);
+        void UpdateSelectLoad(bool state);
+        void UpdateLock(bool state);
+        void UpdateBuzz(bool state);
     private:
         String txID;
         AlgoClient *client;

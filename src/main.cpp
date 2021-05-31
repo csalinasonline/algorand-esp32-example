@@ -42,8 +42,7 @@ void setup() {
 */
 void loop() {
   //
-  CMD_PROC->UpdateLEDLock();
-  CMD_PROC->UpdateLEDUnlock();
+  CMD_PROC->UpdateLEDUnlockLock();
   
   //
   Serial.println("Using Address:");
