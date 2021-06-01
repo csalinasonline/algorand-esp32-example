@@ -184,7 +184,7 @@ void CommandProcessor::processCmd(String cmd){
       delay(500);
       UpdateSelectLoad(true);
       UpdateBuzz(true);
-      delay(500);
+      delay(400);
       UpdateSelectLoad(false);
       UpdateBuzz(false);
       //
@@ -208,7 +208,7 @@ void CommandProcessor::processCmd(String cmd){
       delay(500);
       UpdateSelectLoad(true);
       UpdateBuzz(true);
-      delay(500);
+      delay(400);
       UpdateSelectLoad(false);
       UpdateBuzz(false);
       //
