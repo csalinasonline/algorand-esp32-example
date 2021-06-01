@@ -187,6 +187,9 @@ void CommandProcessor::processCmd(String cmd){
       delay(500);
       UpdateSelectLoad(false);
       UpdateBuzz(false);
+      //
+      digitalWrite(OUTPUT_UNLOCK_LED_PIN, LOW);
+      digitalWrite(OUTPUT_LOCK_LED_PIN, HIGH);
     }
     else {
       Serial.println("Doors is Already Locked!");
@@ -208,6 +211,9 @@ void CommandProcessor::processCmd(String cmd){
       delay(500);
       UpdateSelectLoad(false);
       UpdateBuzz(false);
+      //
+      digitalWrite(OUTPUT_UNLOCK_LED_PIN, HIGH);
+      digitalWrite(OUTPUT_LOCK_LED_PIN, LOW);
     }
     else {
       Serial.println("Doors is Already Unlocked!");
