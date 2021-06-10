@@ -27,26 +27,6 @@ void CommandProcessor::InitIO(void){
 }
 
 /**
- * Update Output Unlock
- */ 
-// void CommandProcessor::UpdateOutputUnlock(bool state){
-//   if(state != true)
-//     digitalWrite(OUTPUT_UNLOCK_PIN,HIGH);
-//   else
-//     digitalWrite(OUTPUT_UNLOCK_PIN, LOW);
-// }
-
-/**
- * Update Output Lock
- */ 
-// void CommandProcessor::UpdateOutputLock(bool state){
-//   if(state != true)
-//     digitalWrite(OUTPUT_LOCK_PIN,HIGH);
-//   else
-//     digitalWrite(OUTPUT_LOCK_PIN, LOW);
-// }
-
-/**
  * Update Wifi LED
  */ 
 void CommandProcessor::UpdateLEDWifi(bool state){
