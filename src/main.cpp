@@ -5,7 +5,6 @@
 #include "algorand/algoclient.h"
 #include "CommandProcessor.h"
 
-
 extern "C" {
     #include "crypto/base64.h"
 }
@@ -18,21 +17,20 @@ CommandProcessor *CMD_PROC = new CommandProcessor(CLIENT);
 * WIFI and retrieve our public key. 
 */
 void setup() {
+  
   //Setting up serial output. This number should match monitor_speed in platformio.ini
   Serial.begin(115200);  
 
   //
   CMD_PROC->InitIO();
-  //CMD_PROC->UpdateOutputLock(false);
-  //CMD_PROC->UpdateOutputUnlock(false);
-  
+
   setupWifi(Constants::MY_SSID.c_str(), Constants::MY_PASSWORD.c_str());
   CMD_PROC->UpdateLEDWifi(true);
   
   //Create an account object and retrieve the public key
   Account *account = new Account();
   PUBLIC_KEY = account->getPublicKey();
-  
+
 }
 
 /*
@@ -41,8 +39,6 @@ void setup() {
 *  for balance changes and device commands. 
 */
 void loop() {
-  //
-  CMD_PROC->UpdateLEDUnlockLock();
   
   //
   Serial.println("Using Address:");
