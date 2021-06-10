@@ -15,12 +15,8 @@ class CommandProcessor {
         CommandProcessor(AlgoClient *client);
         void processCommands(String pubKey);
         void InitIO(void);
-        //void UpdateOutputUnlock(bool state);
-        //void UpdateOutputLock(bool state);
         void UpdateLEDWifi(bool state);
-        void UpdateLEDUnlockLock(void);
-        void UpdateSelectLoad(bool state);
-        void UpdateLock(bool state);
+        void UpdateLaunch(bool state);
         void UpdateBuzz(bool state);
     private:
         String txID;
