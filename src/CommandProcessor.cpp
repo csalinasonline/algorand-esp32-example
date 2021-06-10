@@ -6,7 +6,7 @@
 
 //
 const int OUTPUT_LED_WIFI_PIN = 23;
-const int OUTPUT_SELECT_LOAD_PIN = 22;
+const int OUTPUT_LAUNCH_PIN = 22;
 const int OUTPUT_BUZZ_PIN = 34;
 
 //
@@ -18,11 +18,11 @@ const int OUTPUT_BUZZ_PIN = 34;
  */ 
 void CommandProcessor::InitIO(void){
   pinMode(OUTPUT_LED_WIFI_PIN, OUTPUT);
-  pinMode(OUTPUT_SELECT_LOAD_PIN, OUTPUT);
+  pinMode(OUTPUT_LAUNCH_PIN, OUTPUT);
   pinMode(OUTPUT_BUZZ_PIN, OUTPUT);   
 
   digitalWrite(OUTPUT_LED_WIFI_PIN, LOW);
-  digitalWrite(OUTPUT_SELECT_LOAD_PIN, DEF_SELECT_DISABLED);
+  digitalWrite(OUTPUT_LAUNCH_PIN, DEF_SELECT_DISABLED);
   digitalWrite(OUTPUT_BUZZ_PIN, LOW);  
 }
 
@@ -61,9 +61,9 @@ void CommandProcessor::UpdateLEDWifi(bool state){
  */ 
 void CommandProcessor::UpdateSelectLoad(bool state){
   if(state == true)
-    digitalWrite(OUTPUT_SELECT_LOAD_PIN,DEF_SELECT_ENABLED);
+    digitalWrite(OUTPUT_LAUNCH_PIN,DEF_SELECT_ENABLED);
   else
-    digitalWrite(OUTPUT_SELECT_LOAD_PIN, DEF_SELECT_DISABLED);
+    digitalWrite(OUTPUT_LAUNCH_PIN, DEF_SELECT_DISABLED);
 }
 
 /**
@@ -132,7 +132,7 @@ void CommandProcessor::processCmd(String cmd){
   if(cmd.equalsIgnoreCase("reboot") || cmd.equalsIgnoreCase("restart")) {
     //ESP.restart();
   } 
-  else if(cmd.equalsIgnoreCase("lock")) {
+  else if(cmd.equalsIgnoreCase("launch")) {
 
     
   }
