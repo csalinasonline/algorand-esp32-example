@@ -7,7 +7,7 @@
 //
 const int OUTPUT_LED_WIFI_PIN = 23;
 const int OUTPUT_LAUNCH_PIN = 22;
-const int OUTPUT_BUZZ_PIN = 34;
+const int OUTPUT_BUZZ_PIN = 12;
 
 //
 #define DEF_LAUNCH_DISABLED   HIGH
@@ -37,9 +37,9 @@ void CommandProcessor::UpdateLEDWifi(bool state){
 }
 
 /**
- * Update Select Load
+ * Update Launch
  */ 
-void CommandProcessor::UpdateSelectLoad(bool state){
+void CommandProcessor::UpdateLaunch(bool state){
   if(state == true)
     digitalWrite(OUTPUT_LAUNCH_PIN,DEF_LAUNCH_ENABLED);
   else
@@ -113,8 +113,11 @@ void CommandProcessor::processCmd(String cmd){
     //ESP.restart();
   } 
   else if(cmd.equalsIgnoreCase("launch")) {
-
-    
+    UpdateLaunch(DEF_LAUNCH_ENABLED);
+    UpdateBuzz(true);
+    delay(1000);
+    UpdateLaunch(DEF_LAUNCH_DISABLED);
+    UpdateBuzz(false);
   }
   else {
     Serial.println("Received unknown cmd: " + cmd);
