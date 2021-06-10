@@ -10,8 +10,8 @@ const int OUTPUT_LAUNCH_PIN = 22;
 const int OUTPUT_BUZZ_PIN = 34;
 
 //
-#define DEF_SELECT_DISABLED   HIGH
-#define DEF_SELECT_ENABLED    LOW
+#define DEF_LAUNCH_DISABLED   HIGH
+#define DEF_LAUNCH_ENABLED    LOW
 
 /**
  * Initialize the Leds
@@ -22,7 +22,7 @@ void CommandProcessor::InitIO(void){
   pinMode(OUTPUT_BUZZ_PIN, OUTPUT);   
 
   digitalWrite(OUTPUT_LED_WIFI_PIN, LOW);
-  digitalWrite(OUTPUT_LAUNCH_PIN, DEF_SELECT_DISABLED);
+  digitalWrite(OUTPUT_LAUNCH_PIN, DEF_LAUNCH_DISABLED);
   digitalWrite(OUTPUT_BUZZ_PIN, LOW);  
 }
 
@@ -61,9 +61,9 @@ void CommandProcessor::UpdateLEDWifi(bool state){
  */ 
 void CommandProcessor::UpdateSelectLoad(bool state){
   if(state == true)
-    digitalWrite(OUTPUT_LAUNCH_PIN,DEF_SELECT_ENABLED);
+    digitalWrite(OUTPUT_LAUNCH_PIN,DEF_LAUNCH_ENABLED);
   else
-    digitalWrite(OUTPUT_LAUNCH_PIN, DEF_SELECT_DISABLED);
+    digitalWrite(OUTPUT_LAUNCH_PIN, DEF_LAUNCH_DISABLED);
 }
 
 /**
