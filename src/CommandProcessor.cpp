@@ -10,8 +10,10 @@ const int OUTPUT_LAUNCH_PIN = 22;
 const int OUTPUT_BUZZ_PIN = 12;
 
 //
-#define DEF_LAUNCH_DISABLED   HIGH
-#define DEF_LAUNCH_ENABLED    LOW
+#define DEF_LAUNCH_DISABLED     HIGH
+#define DEF_LAUNCH_ENABLED      LOW
+#define DEF_MULTISHOT_MAX_RUNS  10
+#define DEF_MULTISHOT_DELAY     7000
 
 /**
  * Initialize the Leds
@@ -112,12 +114,23 @@ void CommandProcessor::processCmd(String cmd){
   if(cmd.equalsIgnoreCase("reboot") || cmd.equalsIgnoreCase("restart")) {
     //ESP.restart();
   } 
-  else if(cmd.equalsIgnoreCase("launch")) {
+  else if(cmd.equalsIgnoreCase("launch_single")) {
     UpdateLaunch(DEF_LAUNCH_ENABLED);
     UpdateBuzz(true);
     delay(1000);
     UpdateLaunch(DEF_LAUNCH_DISABLED);
     UpdateBuzz(false);
+  }
+  else if(cmd.equalsIgnoreCase("launch_multi")) {
+    for(int i = 0; i < DEF_MULTISHOT_MAX_RUNS; i++) {
+      UpdateLaunch(DEF_LAUNCH_ENABLED);
+      UpdateBuzz(true);
+      delay(1000);
+      UpdateBuzz(false);
+      UpdateLaunch(DEF_LAUNCH_DISABLED);
+      //
+      delay(DEF_MULTISHOT_DELAY);
+    }
   }
   else {
     Serial.println("Received unknown cmd: " + cmd);
